@@ -21,9 +21,7 @@ class Qdrant:
             self.distance_method = models.Distance.COSINE
         elif distance_method == "euclidean":
             self.distance_method = models.Distance.EUCLID
-    
-    
-    
+
     def connect(self):
         self.client = QdrantClient(path=self.db_path)
     

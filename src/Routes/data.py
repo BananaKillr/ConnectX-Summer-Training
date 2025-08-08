@@ -1,9 +1,10 @@
-from fastapi import APIRouter , Depends,UploadFile , status, Request
+from fastapi import APIRouter , Depends,UploadFile , status, Request,HTTPException
 from fastapi.responses import JSONResponse
 import os
 import aiofiles
 from langchain_community.document_loaders import PyMuPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+from Config.config import get_settings
 import shutil
 
 data_router = APIRouter(prefix="/api/data", tags=["Data"])
@@ -37,17 +38,21 @@ async def process_endpoint(request : Request, file : UploadFile):
         )
     
     chunks = await text_splitter.atransform_documents(
-            documents=file_content,
-        )
+            documents=file_content)
     
     for i in range(0,len(chunks),50):
         # Get the current batch
         batch = chunks[i:i + 50]
+        
         # Extract documents, metadata, and IDs for the batch
         documents = [chunk.page_content for chunk in batch]
         metadata = [chunk.metadata for chunk in batch]
-        vectors = []
-        inserted = request.app.db_client.insert_documents(collection_name = "ay haga",documents=documents,embedding_vectors=vectors,metadata=metadata,batch_size=50)
+        vectors = await request.app.embedding_client.embed_text(
+                text=documents, 
+                document_type="document")
+        inserted = request.app.db_client.insert_documents(collection_name = "Documents",
+                                                          documents=documents,embedding_vectors=vectors,
+                                                          metadata=metadata,batch_size=50)
     
     
     if not inserted:
