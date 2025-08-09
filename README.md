@@ -73,9 +73,8 @@ TEXT_EMBEDDING_MODEL_SIZE=
 
 ---
 
-```
+
 ## 🚀 3. Running the Project
-```
 
 ### Step 1 — Start the Backend (FastAPI)
 ```bash
@@ -89,9 +88,7 @@ streamlit run streamlit.py
 
 ---
 
-```
 ## 📂 4. Project Structure
-```
 
 ```
 Documents/                    
@@ -128,9 +125,8 @@ src/
 
 ---
 
-```
 ## 🧠 5. How it Works
-```
+
 
 1. **Upload PDF** (via Streamlit sidebar) → sent to `/data/upload` endpoint → stored in `Database/datastore` and processed into vector embeddings in `Database/vectordb`.
 
@@ -142,9 +138,8 @@ src/
 
 ---
 
-```
 ## 📊 6. Key Components
-```
+
 
 - **LangGraphAgent.py**
   - Defines a LangGraph workflow with nodes:
@@ -171,9 +166,9 @@ src/
 
 ---
 
-```
+
 ### Tips
-```
+
 - Keep your API keys private (never commit `.env` to GitHub).
 - Start with **RAG mode** to understand basic retrieval before diving into LangGraph logic.
 - Check `langgraph.png` to see a diagram of your LangGraph workflow.
