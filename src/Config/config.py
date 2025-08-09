@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     GOOGLE_API_KEY: str
     EMBEDDING_MODEL_NAME: str
     TEXT_EMBEDDING_MODEL_SIZE: str
+    GEMINI_MODEL_NAME: str
 
 
     class Config:

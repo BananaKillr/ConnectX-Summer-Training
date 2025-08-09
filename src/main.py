@@ -7,12 +7,14 @@ from LLMs.Embedding import e5Model
 from LLMs.Gemini import GEMINI
 from Config.config import get_settings
 from Routes.data import data_router
+from Routes.chat import chat_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     print("Starting up...")
     settings = get_settings()
     app.db_client = Qdrant(db_path=settings.Qdrant_db_path,distance_method=settings.Qdrant_distance_method).connect()
+    print(app.db_client)
     app.embedding_client = e5Model(model_name=settings.EMBEDDING_MODEL_NAME)
     app.llm = GEMINI(model_name=settings.GEMINI_MODEL_NAME)
     
@@ -31,3 +33,4 @@ app.add_middleware(
 )
 
 app.include_router(data_router)
+app.include_router(chat_router)

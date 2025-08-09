@@ -1,13 +1,13 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
 from Config.config import get_settings
 from langchain_core.prompts import ChatPromptTemplate
-from Prompts.prompts import LLMPrompts
+from .Prompts.prompts import LLMPrompts
 
 class GEMINI:
-    def __init__(self):
+    def __init__(self,model_name):
         self.settings = get_settings()
         self.llm = ChatGoogleGenerativeAI(google_api_key=self.settings.GOOGLE_API_KEY,
-                                          model="gemini-2.5-flash")       
+                                          model=model_name)       
 
     def build_prompt(self) -> ChatPromptTemplate:
         return ChatPromptTemplate.from_messages(

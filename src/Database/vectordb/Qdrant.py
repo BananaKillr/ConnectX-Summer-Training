@@ -24,6 +24,8 @@ class Qdrant:
 
     def connect(self):
         self.client = QdrantClient(path=self.db_path)
+        print("Connected")
+        return self
     
     def disconnect(self):
         pass

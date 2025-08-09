@@ -11,6 +11,7 @@ data_router = APIRouter(prefix="/api/data", tags=["Data"])
 
 @data_router.post("/upload")
 async def process_endpoint(request : Request, file : UploadFile):
+    request.app.db_client.create_collection(collection_name="Documents",embedding_size=get_settings().TEXT_EMBEDDING_MODEL_SIZE)
     
     if file.content_type != "application/pdf":
         return JSONResponse(
@@ -63,7 +64,11 @@ async def process_endpoint(request : Request, file : UploadFile):
             }
         )
     
-    shutil.rmtree(file_path)
+    # shutil.rmtree(file_path)
+    if os.path.isdir(file_path):
+        shutil.rmtree(file_path)  # delete directory
+    elif os.path.isfile(file_path):
+        os.remove(file_path)    
     return JSONResponse(
         status_code=status.HTTP_200_OK,
         content={
