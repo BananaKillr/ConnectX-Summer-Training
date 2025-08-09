@@ -1,7 +1,9 @@
 from fastapi.responses import JSONResponse
 from fastapi import APIRouter , status,Depends,Header,HTTPException,Request
 from Config.config import get_settings
+from langchain_core.messages import AIMessage,HumanMessage
 from pydantic import BaseModel
+from Agents.LangGraphAgent import LangGraphAgent 
 
 chat_router = APIRouter(tags=['Chat'], prefix='/api/chat')
 
@@ -43,4 +45,26 @@ async def chat(request: Request,
             }
         )
 
-    
+ # your class
+
+chat_router = APIRouter(tags=['LangGraph'], prefix='/api/langgraph')
+
+# Initialize the agent once (so it persists across requests)
+langgraph_agent = LangGraphAgent()
+
+@chat_router.post("/chat_langgraph")
+async def chat_with_langgraph(request: Request, user_request: QuestionRequest):
+    config = {"configurable": {"thread_id": "streamlit_session"}}
+    initial_state = {
+        "user_id": 1,
+        "messages": [HumanMessage(content=user_request.question)],
+        "count": 0
+    }
+    result = langgraph_agent.graph.invoke(initial_state, config)
+
+    return JSONResponse(
+        status_code=status.HTTP_200_OK,
+        content={
+            "response": result['messages'][-1].content
+        }
+    )
