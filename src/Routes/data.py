@@ -11,7 +11,7 @@ data_router = APIRouter(prefix="/api/data", tags=["Data"])
 
 @data_router.post("/upload")
 async def process_endpoint(request : Request, file : UploadFile):
-    request.app.db_client.create_collection(collection_name="Documents",embedding_size=get_settings().TEXT_EMBEDDING_MODEL_SIZE)
+    request.app.db_client.create_collection(collection_name="Documents",embedding_size=get_settings().TEXT_EMBEDDING_MODEL_SIZE,do_reset=True)
     
     if file.content_type != "application/pdf":
         return JSONResponse(

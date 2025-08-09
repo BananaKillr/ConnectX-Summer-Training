@@ -5,7 +5,7 @@ import requests
 API_BASE = "http://localhost:8000/api"  # Change to your FastAPI host
 UPLOAD_ENDPOINT = f"{API_BASE}/data/upload"
 CHAT_ENDPOINT_RAG = f"{API_BASE}/chat/chat"
-CHAT_ENDPOINT_LANGGRAPH = f"{API_BASE}/langgraph/chat_langgraph"
+CHAT_ENDPOINT_LANGGRAPH = f"{API_BASE}/chat/chat_langgraph"
 
 st.set_page_config(page_title="📄 Multi-Mode Chatbot", page_icon="🤖", layout="wide")
 

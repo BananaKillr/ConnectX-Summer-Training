@@ -47,7 +47,7 @@ async def chat(request: Request,
 
  # your class
 
-chat_router = APIRouter(tags=['LangGraph'], prefix='/api/langgraph')
+# chat_router = APIRouter(tags=['LangGraph'], prefix='/api/langgraph')
 
 # Initialize the agent once (so it persists across requests)
 langgraph_agent = LangGraphAgent()
@@ -58,7 +58,6 @@ async def chat_with_langgraph(request: Request, user_request: QuestionRequest):
     initial_state = {
         "user_id": 1,
         "messages": [HumanMessage(content=user_request.question)],
-        "count": 0
     }
     result = langgraph_agent.graph.invoke(initial_state, config)
 

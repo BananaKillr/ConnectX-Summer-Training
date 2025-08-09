@@ -8,7 +8,6 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 # from Config.config import get_settings
 # 
     
-
 class State(TypedDict):
     user_id: int
     messages : Annotated[list, add_messages]
@@ -45,6 +44,7 @@ class LangGraphAgent:
                  f.write(image_data)
     
     def call_llm(self,state:State,config):
+        # state['count'] = 0
         messages = [
                 (
                     "system",
@@ -54,19 +54,22 @@ class LangGraphAgent:
             ]
         llm_response = self.llm.invoke(messages)
         print(llm_response)
+        print(f'{state['count']}')
         count = state['count'] + 1
         print(count)
         return {'messages': llm_response,
                 "count": count}
         
     def check_counter_node(self, state: State, config):
-        print(f"Checking counter: {state['count']}")
+        # print(f"Checking counter: {state['count']}")
+        count = state.get("count",0)
+        state['count'] = count
+        print(f"Checking counter: {count}")
         return state
 
     def check_counter_condition(self, state: State):
         return state["count"] < 3
 
-    
     def end_conversation(self,state:State,config):
          return {"messages":AIMessage(content="You passed your conversation limit, Please retry after 6 hours!")}
     
