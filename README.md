@@ -25,6 +25,7 @@ python3.12 -m venv venv
 # Activate it
 source venv/bin/activate   # Mac/Linux
 venv\Scripts\activate      # Windows
+```
 
 ### Step 2 — Install Dependencies
 
